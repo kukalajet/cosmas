@@ -5,7 +5,7 @@ import { Input } from "./src/components";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Input value="test" width={"90%"} multiline />
+      <Input value="test" multiline containerStyle={{ padding: 16 }} />
     </View>
   );
 }
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fffeee",
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 50,
   },
+  input: {},
 });
