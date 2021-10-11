@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   TextInput,
   Platform,
@@ -11,10 +10,9 @@ import {
   TextInputFocusEventData,
   TextInputContentSizeChangeEventData,
 } from "react-native";
+import { View, H5, P } from "dripsy";
 import { makeStyles } from "../../utils";
-
-// Testing
-import Colors from "../../configs/colors";
+import { theme } from "../../configs";
 
 type State = "default" | "error" | "disabled";
 
@@ -39,7 +37,7 @@ const Input = ({
   onChangeText,
   containerStyle,
 }: Props) => {
-  const [state, setState] = useState<State>("default");
+  const [state, setState] = useState<State>("error");
   const [focused, setFocused] = useState<boolean>(false);
   const [hovered, setHovered] = useState<boolean>(false);
   const [_value, setValue] = useState<string | undefined>(value);
@@ -54,17 +52,17 @@ const Input = ({
     }
   };
 
-  const onFocus = (value: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    // setFocused(true);
+  const _onFocus = (value: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setFocused(true);
     setHovered(true);
   };
 
-  const onBlur = (value: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    // setFocused(false);
+  const _onBlur = (value: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setFocused(false);
     setHovered(false);
   };
 
-  const onContainerSizeChange = (
+  const _onContainerSizeChange = (
     event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
   ) => {
     if (multiline) {
@@ -74,41 +72,23 @@ const Input = ({
 
   return (
     <View style={StyleSheet.flatten([styles.container, containerStyle])}>
-      {!!label && <Text style={styles.label}>{label}</Text>}
-      <View style={styles.inputContainer}>
+      {!!label && <H5 style={styles.label}>{label}</H5>}
+      <View sx={{ backgroundColor: "surface" }} style={styles.inputContainer}>
         <TextInput
-          selectionColor="#2F4F4F"
           value={_value}
-          multiline={multiline}
+          onFocus={_onFocus}
+          onBlur={_onBlur}
           onChangeText={_onChangeText}
-          onContentSizeChange={onContainerSizeChange}
+          onContentSizeChange={_onContainerSizeChange}
+          multiline={multiline}
           scrollEnabled={false}
           style={styles.input}
-          // wip
-          onFocus={onFocus}
-          onBlur={onBlur}
         />
       </View>
-      {!!error && <Text style={styles.error}>ERROR ERROR ERROR</Text>}
+      {!!error && <P style={styles.error}>{error}</P>}
     </View>
   );
 };
-
-function getBottomBorderColor(
-  state?: State,
-  focused?: boolean,
-  hovered?: boolean
-): string {
-  if (focused) return Colors.primaryVariant;
-  if (state === "disabled") return "#2F4F3F";
-  if (state === "error") {
-    if (hovered) return Colors.error;
-    return Colors.error;
-  }
-
-  if (hovered) return "#2F4F9E";
-  return "#2F4F4F";
-}
 
 type StylesProps = {
   height?: number | string;
@@ -126,11 +106,21 @@ const useStyles = makeStyles(
       container: {
         width: width,
         justifyContent: "center",
+        ...Platform.select({
+          web: null,
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.125,
+            shadowRadius: 1,
+            elevation: 1,
+          },
+        }),
       },
       inputContainer: {
         backgroundColor: "#DCDCDC",
         borderBottomColor: bottomBorderColor,
-        borderBottomWidth: 4,
+        borderBottomWidth: 3,
         borderRadius: 6,
       },
       label: {
@@ -143,9 +133,14 @@ const useStyles = makeStyles(
         ...Platform.select({
           web: {
             height: height,
-            paddingVertical: 16,
-            paddingHorizontal: 16,
+            paddingVertical: 12,
+            paddingHorizontal: 12,
             outlineWidth: 0,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.125,
+            shadowRadius: 2,
+            elevation: 2,
           },
           default: {
             paddingTop: 12,
@@ -155,9 +150,29 @@ const useStyles = makeStyles(
       },
       error: {
         paddingHorizontal: 4,
+        color: theme.colors.error,
       },
     };
   }
 );
+
+function getBottomBorderColor(
+  state?: State,
+  focused?: boolean,
+  hovered?: boolean
+): string {
+  const colors = theme.colors;
+
+  if (state === "error") {
+    if (hovered) return colors.error;
+    return `${colors.error}98`;
+  }
+
+  if (state === "disabled") return `${colors.primary}95`;
+  if (focused) return colors.primary;
+  if (hovered) return colors.primary;
+
+  return colors.secondary;
+}
 
 export default Input;

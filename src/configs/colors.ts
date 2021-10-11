@@ -1,5 +1,5 @@
 // TODO: Create a type fro HEX code.
-interface Colors {
+export interface Colors {
   primary: string;
   primaryVariant: string;
   secondary: string;
