@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Text,
   TextInput,
   Platform,
   StyleSheet,
@@ -24,6 +23,8 @@ type Props = {
   error?: string;
   multiline?: boolean;
   onChangeText?: (value: string) => void;
+  leadingIcon?: React.ReactElement;
+  trailingIcon?: React.ReactElement;
   containerStyle?: StyleProp<ViewStyle>;
 };
 
@@ -35,6 +36,8 @@ const Input = ({
   error,
   multiline,
   onChangeText,
+  leadingIcon,
+  trailingIcon,
   containerStyle,
 }: Props) => {
   const [state, setState] = useState<State>("error");
@@ -43,7 +46,15 @@ const Input = ({
   const [_value, setValue] = useState<string | undefined>(value);
   const [_height, setHeight] = useState<number | string | undefined>(height);
 
-  const styles = useStyles({ height: _height, width, state, focused, hovered });
+  const styles = useStyles({
+    height: _height,
+    width,
+    state,
+    focused,
+    hovered,
+    hasLeadingIcon: !!leadingIcon,
+    hasTrailingIcon: !!trailingIcon,
+  });
 
   const _onChangeText = (value: string) => {
     setValue(value);
@@ -74,6 +85,7 @@ const Input = ({
     <View style={StyleSheet.flatten([styles.container, containerStyle])}>
       {!!label && <H5 style={styles.label}>{label}</H5>}
       <View sx={{ backgroundColor: "surface" }} style={styles.inputContainer}>
+        {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
         <TextInput
           value={_value}
           onFocus={_onFocus}
@@ -84,6 +96,7 @@ const Input = ({
           scrollEnabled={false}
           style={styles.input}
         />
+        {!!trailingIcon && <View style={styles.icon}>{trailingIcon}</View>}
       </View>
       {!!error && <P style={styles.error}>{error}</P>}
     </View>
@@ -96,10 +109,20 @@ type StylesProps = {
   state?: State;
   focused?: boolean;
   hovered?: boolean;
+  hasLeadingIcon: boolean;
+  hasTrailingIcon: boolean;
 };
 
 const useStyles = makeStyles(
-  ({ height, width, state, focused, hovered }: StylesProps) => {
+  ({
+    height,
+    width,
+    state,
+    focused,
+    hovered,
+    hasLeadingIcon,
+    hasTrailingIcon,
+  }: StylesProps) => {
     const bottomBorderColor = getBottomBorderColor(state, focused, hovered);
 
     return {
@@ -118,7 +141,7 @@ const useStyles = makeStyles(
         }),
       },
       inputContainer: {
-        backgroundColor: "#DCDCDC",
+        flexDirection: "row",
         borderBottomColor: bottomBorderColor,
         borderBottomWidth: 3,
         borderRadius: 6,
@@ -128,8 +151,11 @@ const useStyles = makeStyles(
         paddingHorizontal: 4,
       },
       input: {
+        flex: 1,
+        justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: 8,
+        paddingStart: hasLeadingIcon ? undefined : 8,
+        paddingEnd: hasTrailingIcon ? undefined : 8,
         ...Platform.select({
           web: {
             height: height,
@@ -144,13 +170,17 @@ const useStyles = makeStyles(
           },
           default: {
             paddingTop: 12,
-            paddingBottom: 8,
+            paddingBottom: 10,
           },
         }),
       },
       error: {
         paddingHorizontal: 4,
         color: theme.colors.error,
+      },
+      icon: {
+        justifyContent: "center",
+        paddingHorizontal: 6,
       },
     };
   }
@@ -165,14 +195,14 @@ function getBottomBorderColor(
 
   if (state === "error") {
     if (hovered) return colors.error;
-    return `${colors.error}98`;
+    return `${colors.error}95`;
   }
 
   if (state === "disabled") return `${colors.primary}95`;
   if (focused) return colors.primary;
   if (hovered) return colors.primary;
 
-  return colors.secondary;
+  return colors.primary;
 }
 
 export default Input;
