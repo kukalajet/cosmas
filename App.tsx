@@ -11,16 +11,18 @@ export default function App() {
       <View sx={{ backgroundColor: "background" }} style={styles.container}>
         <Input
           label="Condition"
-          value="test"
+          value="testas"
+          placeholder="test"
           error="first error"
-          width={"50%"}
+          width={"60%"}
           multiline
-          leadingIcon={
-            <Ionicons name="md-checkmark-circle" size={24} color="green" />
-          }
-          trailingIcon={
-            <Ionicons name="md-checkmark-circle" size={24} color="green" />
-          }
+          disabled
+          // leadingIcon={
+          //   <Ionicons name="md-checkmark-circle" size={24} color="green" />
+          // }
+          // trailingIcon={
+          //   <Ionicons name="md-checkmark-circle" size={24} color="green" />
+          // }
           containerStyle={styles.input}
         />
         <Input
@@ -28,8 +30,8 @@ export default function App() {
           value="test"
           error="second error"
           multiline
-          leadingIcon={
-            <Ionicons name="md-checkmark-circle" size={24} color="green" />
+          trailingIcon={
+            <Ionicons name="md-checkmark-circle" size={24} color="#B00020" />
           }
           containerStyle={styles.input}
         />

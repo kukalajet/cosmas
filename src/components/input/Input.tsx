@@ -104,8 +104,18 @@ const Input = ({
       onMouseLeave={() => setHovered(false)}
       style={StyleSheet.flatten([styles.container, containerStyle])}
     >
-      {!!label && <H5 style={styles.label}>{label}</H5>}
-      <View sx={{ backgroundColor: "surface" }} style={styles.inputContainer}>
+      {!!label && (
+        <H5
+          sx={{ color: disabled ? "onSurface" : undefined }}
+          style={styles.label}
+        >
+          {label}
+        </H5>
+      )}
+      <View
+        sx={{ backgroundColor: "surfaceLight" }}
+        style={styles.inputContainer}
+      >
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
         <TextInput
           value={_value}
@@ -115,12 +125,13 @@ const Input = ({
           onChangeText={_onChangeText}
           onContentSizeChange={_onContainerSizeChange}
           multiline={multiline}
+          editable={!disabled}
           scrollEnabled={false}
           style={styles.input}
         />
         {!!trailingIcon && <View style={styles.icon}>{trailingIcon}</View>}
       </View>
-      {!!error && <P style={styles.error}>{error}</P>}
+      {!!error && !disabled && <P style={styles.error}>{error}</P>}
     </View>
   );
 };
@@ -165,9 +176,11 @@ const useStyles = makeStyles(
       inputContainer: {
         flexDirection: "row",
         borderBottomColor: bottomBorderColor,
-        borderBottomWidth: 3,
         borderRadius: 6,
         ...Platform.select({
+          default: {
+            borderBottomWidth: 2.5,
+          },
           web: {
             outlineWidth: 0,
             shadowColor: "#000",
@@ -175,6 +188,7 @@ const useStyles = makeStyles(
             shadowOpacity: 0.125,
             shadowRadius: 2,
             elevation: 2,
+            borderBottomWidth: 3,
           },
         }),
       },
@@ -222,11 +236,11 @@ function getActiveColor(
     return `${colors.error}95`;
   }
 
-  if (state === "disabled") return `${colors.primary}95`;
-  if (focused) return colors.primary;
-  if (hovered) return colors.primary;
+  if (state === "disabled") return colors.surfaceDark;
+  if (focused) return colors.secondaryDark;
+  if (hovered) return colors.secondaryLight;
 
-  return `${colors.primary}95`;
+  return colors.onSurface;
 }
 
 export default Input;
