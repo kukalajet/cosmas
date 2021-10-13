@@ -17,10 +17,11 @@ type State = "default" | "error" | "disabled";
 
 type Props = {
   label?: string;
-  value: string;
+  value?: string;
+  placeholder?: string;
+  error?: string;
   height?: number | string;
   width?: number | string;
-  error?: string;
   multiline?: boolean;
   onChangeText?: (value: string) => void;
   leadingIcon?: React.ReactElement;
@@ -31,9 +32,10 @@ type Props = {
 const Input = ({
   label,
   value,
+  placeholder,
+  error,
   height,
   width = "100%",
-  error,
   multiline,
   onChangeText,
   leadingIcon,
@@ -88,6 +90,7 @@ const Input = ({
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
         <TextInput
           value={_value}
+          placeholder={placeholder}
           onFocus={_onFocus}
           onBlur={_onBlur}
           onChangeText={_onChangeText}
