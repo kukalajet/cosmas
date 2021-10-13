@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   Platform,
@@ -22,6 +22,7 @@ type Props = {
   error?: string;
   height?: number | string;
   width?: number | string;
+  disabled?: boolean;
   multiline?: boolean;
   onChangeText?: (value: string) => void;
   leadingIcon?: React.ReactElement;
@@ -36,17 +37,30 @@ const Input = ({
   error,
   height,
   width = "100%",
+  disabled,
   multiline,
   onChangeText,
   leadingIcon,
   trailingIcon,
   containerStyle,
 }: Props) => {
-  const [state, setState] = useState<State>("error");
+  const [state, setState] = useState<State>("default");
   const [focused, setFocused] = useState<boolean>(false);
   const [hovered, setHovered] = useState<boolean>(false);
   const [_value, setValue] = useState<string | undefined>(value);
   const [_height, setHeight] = useState<number | string | undefined>(height);
+
+  useEffect(() => {
+    if (disabled) {
+      setState("disabled");
+      return;
+    }
+    if (error) {
+      setState("error");
+      return;
+    }
+    setState("default");
+  }, [disabled, error]);
 
   const styles = useStyles({
     height: _height,
@@ -84,7 +98,12 @@ const Input = ({
   };
 
   return (
-    <View style={StyleSheet.flatten([styles.container, containerStyle])}>
+    <View
+      // @ts-expect-error
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={StyleSheet.flatten([styles.container, containerStyle])}
+    >
       {!!label && <H5 style={styles.label}>{label}</H5>}
       <View sx={{ backgroundColor: "surface" }} style={styles.inputContainer}>
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
@@ -207,7 +226,7 @@ function getBottomBorderColor(
   if (focused) return colors.primary;
   if (hovered) return colors.primary;
 
-  return colors.primary;
+  return `${colors.primary}95`;
 }
 
 export default Input;
