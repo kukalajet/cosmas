@@ -145,6 +145,16 @@ const useStyles = makeStyles(
         borderBottomColor: bottomBorderColor,
         borderBottomWidth: 3,
         borderRadius: 6,
+        ...Platform.select({
+          web: {
+            outlineWidth: 0,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.125,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
       },
       label: {
         paddingBottom: 2,
@@ -160,13 +170,7 @@ const useStyles = makeStyles(
           web: {
             height: height,
             paddingVertical: 12,
-            paddingHorizontal: 12,
             outlineWidth: 0,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.125,
-            shadowRadius: 2,
-            elevation: 2,
           },
           default: {
             paddingTop: 12,
@@ -175,13 +179,11 @@ const useStyles = makeStyles(
         }),
       },
       error: {
+        paddingTop: 2,
         paddingHorizontal: 4,
         color: theme.colors.error,
       },
-      icon: {
-        justifyContent: "center",
-        paddingHorizontal: 6,
-      },
+      icon: { padding: 6 },
     };
   }
 );
