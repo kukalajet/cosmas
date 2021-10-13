@@ -145,7 +145,7 @@ const useStyles = makeStyles(
     hasLeadingIcon,
     hasTrailingIcon,
   }: StylesProps) => {
-    const bottomBorderColor = getBottomBorderColor(state, focused, hovered);
+    const bottomBorderColor = getActiveColor(state, focused, hovered);
 
     return {
       container: {
@@ -210,7 +210,7 @@ const useStyles = makeStyles(
   }
 );
 
-function getBottomBorderColor(
+function getActiveColor(
   state?: State,
   focused?: boolean,
   hovered?: boolean
