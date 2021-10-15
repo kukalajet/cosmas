@@ -5,7 +5,6 @@ import { PortalProvider, PortalHost } from "@gorhom/portal";
 import { Ionicons } from "@expo/vector-icons";
 import { Input, Modal } from "./src/components";
 import theme from "./src/configs/theme";
-import { Portal } from "@gorhom/portal";
 import { makeStyles } from "./src/utils";
 
 export default function App() {
@@ -16,7 +15,16 @@ export default function App() {
       <PortalProvider>
         <SafeAreaView style={styles.container}>
           {/* testing */}
-          <Modal withCloseButton={true}>
+          <Modal
+            child={
+              <Input
+                label="Condition"
+                placeholder="test"
+                containerStyle={styles.input}
+              />
+            }
+            withCloseButton={true}
+          >
             <React.Fragment>
               <Text>Test</Text>
               <Input
@@ -28,7 +36,7 @@ export default function App() {
                 multiline
                 disabled
                 trailingIcon={<Ionicons name="logo-react" size={24} />}
-                containerStyle={styles.input}
+                containerStyle={[styles.input, { paddingHorizontal: 8 }]}
               />
               <Input
                 label="Response"
@@ -38,7 +46,7 @@ export default function App() {
                 trailingIcon={
                   <Ionicons name="close-outline" size={24} color="#B00020" />
                 }
-                containerStyle={styles.input}
+                containerStyle={[styles.input, { paddingHorizontal: 8 }]}
               />
             </React.Fragment>
           </Modal>

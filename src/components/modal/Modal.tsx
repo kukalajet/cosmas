@@ -5,9 +5,7 @@ import { makeStyles } from "../../utils";
 type Props = {
   children: React.ReactElement;
   withCloseButton?: boolean;
-  button?: {
-    onPress: (event: GestureResponderEvent) => void;
-  };
+  child: React.ReactElement;
 };
 
 const Modal = ({ children }: Props) => {

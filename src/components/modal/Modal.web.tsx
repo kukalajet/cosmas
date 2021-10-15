@@ -14,13 +14,11 @@ import { theme } from "../../configs";
 
 type Props = {
   children: React.ReactElement;
+  child: React.ReactElement;
   withCloseButton?: boolean;
-  button?: {
-    onPress: (event: GestureResponderEvent) => void;
-  };
 };
 
-const Modal = ({ children, withCloseButton = false, button }: Props) => {
+const Modal = ({ children, withCloseButton = false, child }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const styles = useStyles();
 
@@ -30,13 +28,7 @@ const Modal = ({ children, withCloseButton = false, button }: Props) => {
 
   return (
     <React.Fragment>
-      {!!button ? (
-        { button }
-      ) : (
-        <TouchableOpacity onPress={handleOnPress} style={{ padding: 8 }}>
-          <Text>{open ? "Hide" : "Show"} Modal</Text>
-        </TouchableOpacity>
-      )}
+      <Pressable onPress={handleOnPress}>{child}</Pressable>
       {open && (
         <Portal name="modal">
           <Pressable onPress={handleOnPress} style={styles.backdrop}>
