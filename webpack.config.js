@@ -5,7 +5,7 @@ module.exports = async function (env, argv) {
     {
       ...env,
       babel: {
-        dangerouslyAddModulePathsToTranspile: ["dripsy", "@dripsy/core"],
+        dangerouslyAddModulePathsToTranspile: [],
       },
     },
     argv

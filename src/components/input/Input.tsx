@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
+  View,
+  Text,
   TextInput,
   Platform,
   StyleSheet,
@@ -9,7 +11,6 @@ import {
   TextInputFocusEventData,
   TextInputContentSizeChangeEventData,
 } from "react-native";
-import { View, H5, P } from "dripsy";
 import { makeStyles } from "../../utils";
 import { theme } from "../../configs";
 
@@ -68,6 +69,7 @@ const Input = ({
     state,
     focused,
     hovered,
+    disabled,
     hasLeadingIcon: !!leadingIcon,
     hasTrailingIcon: !!trailingIcon,
   });
@@ -104,18 +106,8 @@ const Input = ({
       onMouseLeave={() => setHovered(false)}
       style={StyleSheet.flatten([styles.container, containerStyle])}
     >
-      {!!label && (
-        <H5
-          sx={{ color: disabled ? "onSurface" : undefined }}
-          style={styles.label}
-        >
-          {label}
-        </H5>
-      )}
-      <View
-        sx={{ backgroundColor: "surfaceLight" }}
-        style={styles.inputContainer}
-      >
+      {!!label && <Text style={styles.label}>{label}</Text>}
+      <View style={styles.inputContainer}>
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
         <TextInput
           value={_value}
@@ -131,7 +123,7 @@ const Input = ({
         />
         {!!trailingIcon && <View style={styles.icon}>{trailingIcon}</View>}
       </View>
-      {!!error && !disabled && <P style={styles.error}>{error}</P>}
+      {!!error && !disabled && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
@@ -142,6 +134,7 @@ type StylesProps = {
   state?: State;
   focused?: boolean;
   hovered?: boolean;
+  disabled?: boolean;
   hasLeadingIcon: boolean;
   hasTrailingIcon: boolean;
 };
@@ -153,6 +146,7 @@ const useStyles = makeStyles(
     state,
     focused,
     hovered,
+    disabled,
     hasLeadingIcon,
     hasTrailingIcon,
   }: StylesProps) => {
@@ -177,6 +171,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         borderBottomColor: bottomBorderColor,
         borderRadius: 6,
+        backgroundColor: "#ECEFF1",
         ...Platform.select({
           default: {
             borderBottomWidth: 2.5,
@@ -193,6 +188,7 @@ const useStyles = makeStyles(
         }),
       },
       label: {
+        color: disabled ? "#9E9E9E" : undefined,
         paddingBottom: 2,
         paddingHorizontal: 4,
       },
@@ -215,6 +211,7 @@ const useStyles = makeStyles(
         }),
       },
       error: {
+        fontSize: 16,
         paddingTop: 2,
         paddingHorizontal: 4,
         color: theme.colors.error,
