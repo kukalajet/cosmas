@@ -4,10 +4,13 @@ import { makeStyles } from "../../utils";
 
 type Props = {
   children: React.ReactElement;
-  onPress: (event: GestureResponderEvent) => void;
+  withCloseButton?: boolean;
+  button?: {
+    onPress: (event: GestureResponderEvent) => void;
+  };
 };
 
-const Modal = ({ children, onPress }: Props) => {
+const Modal = ({ children }: Props) => {
   return <Text></Text>;
 };
 

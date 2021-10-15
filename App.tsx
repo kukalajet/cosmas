@@ -10,54 +10,38 @@ import { makeStyles } from "./src/utils";
 
 export default function App() {
   const styles = useStyles();
-  const [showModal, setShowModal] = useState<boolean>(false);
-
-  const handleOnModalPress = useCallback(() => {
-    setShowModal((state) => !state);
-  }, []);
 
   return (
     <DripsyProvider theme={theme as unknown as Theme}>
       <PortalProvider>
         <SafeAreaView style={styles.container}>
           {/* testing */}
-          <TouchableOpacity style={styles.button} onPress={handleOnModalPress}>
-            <Text style={styles.text}>{showModal ? "Hide" : "Show"} Modal</Text>
-          </TouchableOpacity>
-          {showModal && (
-            <Portal name="modal">
-              <Modal onPress={handleOnModalPress}>
-                <React.Fragment>
-                  <Text>Test</Text>
-                  <Input
-                    label="Condition"
-                    value="testas"
-                    placeholder="test"
-                    error="first error"
-                    width={"60%"}
-                    multiline
-                    disabled
-                    trailingIcon={<Ionicons name="logo-react" size={24} />}
-                    containerStyle={styles.input}
-                  />
-                  <Input
-                    label="Response"
-                    value="test"
-                    error="second error"
-                    multiline
-                    trailingIcon={
-                      <Ionicons
-                        name="close-outline"
-                        size={24}
-                        color="#B00020"
-                      />
-                    }
-                    containerStyle={styles.input}
-                  />
-                </React.Fragment>
-              </Modal>
-            </Portal>
-          )}
+          <Modal withCloseButton={true}>
+            <React.Fragment>
+              <Text>Test</Text>
+              <Input
+                label="Condition"
+                value="testas"
+                placeholder="test"
+                error="first error"
+                width={"60%"}
+                multiline
+                disabled
+                trailingIcon={<Ionicons name="logo-react" size={24} />}
+                containerStyle={styles.input}
+              />
+              <Input
+                label="Response"
+                value="test"
+                error="second error"
+                multiline
+                trailingIcon={
+                  <Ionicons name="close-outline" size={24} color="#B00020" />
+                }
+                containerStyle={styles.input}
+              />
+            </React.Fragment>
+          </Modal>
           {/* end testing */}
           <Input
             label="Condition"
@@ -80,7 +64,7 @@ export default function App() {
             }
             containerStyle={styles.input}
           />
-          <PortalHost name="main_host" />
+          <PortalHost name="main" />
         </SafeAreaView>
       </PortalProvider>
     </DripsyProvider>
@@ -98,17 +82,4 @@ const useStyles = makeStyles(({}: StylesProps) => ({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-
-  // testing
-  button: {
-    width: "25%",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 24,
-    backgroundColor: "#333",
-  },
-  text: {
-    color: "white",
-  },
-  // end testing
 }));
