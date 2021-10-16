@@ -1,11 +1,15 @@
-// TODO: Create a type fro HEX code.
-export interface Colors {
-  primary: string;
-  primaryVariant: string;
-  secondary: string;
-  secondaryVariant: string;
+interface Colors {
+  text: string;
   background: string;
   surface: string;
+  surfaceLight: string;
+  surfaceDark: string;
+  primary: string;
+  primaryLight: string;
+  primaryDark: string;
+  secondary: string;
+  secondaryLight: string;
+  secondaryDark: string;
   error: string;
   onPrimary: string;
   onSecondary: string;
@@ -13,20 +17,3 @@ export interface Colors {
   onSurface: string;
   onError: string;
 }
-
-const colors: Colors = {
-  primary: "#6200EE",
-  primaryVariant: "#3700B3",
-  secondary: "#03DAC6",
-  secondaryVariant: "#018786",
-  background: "#FFFFFF",
-  surface: "#FFFFFF",
-  error: "#B00020",
-  onPrimary: "#FFFFFF",
-  onSecondary: "#000000",
-  onBackground: "#000000",
-  onSurface: "#000000",
-  onError: "#FFFFFF",
-};
-
-export default colors;
