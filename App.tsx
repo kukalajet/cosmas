@@ -1,18 +1,24 @@
-import React, { useCallback, useState } from "react";
-import { Text, TouchableOpacity, SafeAreaView } from "react-native";
+import React from "react";
+import { Text, SafeAreaView } from "react-native";
 import { PortalProvider, PortalHost } from "@gorhom/portal";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { NavigationContainer, useTheme } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Input, Modal } from "./src/components";
-import theme from "./src/configs/theme";
 import { makeStyles } from "./src/utils";
-import { NavigationContainer, useTheme } from "@react-navigation/native";
+import theme from "./src/configs/theme";
 
 const App = () => {
   return (
     <NavigationContainer theme={theme}>
-      <PortalProvider>
-        <Content />
-      </PortalProvider>
+      <BottomSheetModalProvider>
+        <SafeAreaProvider>
+          <PortalProvider>
+            <Content />
+          </PortalProvider>
+        </SafeAreaProvider>
+      </BottomSheetModalProvider>
     </NavigationContainer>
   );
 };
@@ -25,7 +31,8 @@ const Content = () => {
     <SafeAreaView style={styles.container}>
       {/* testing */}
       <Modal
-        withCloseButton={true}
+        label="test"
+        // withCloseButton={true}
         child={
           <Input
             label="Condition"
@@ -35,7 +42,42 @@ const Content = () => {
         }
       >
         <React.Fragment>
-          <Text>Test</Text>
+          <Modal
+            label="test2"
+            withCloseButton={true}
+            child={
+              <Input
+                label="Condition"
+                placeholder="test"
+                containerStyle={styles.input}
+              />
+            }
+          >
+            <React.Fragment>
+              <Input
+                label="Condition"
+                value="testas"
+                placeholder="test"
+                error="first error"
+                width={"60%"}
+                multiline
+                disabled
+                trailingIcon={<Ionicons name="logo-react" size={24} />}
+                containerStyle={[styles.input, { paddingHorizontal: 16 }]}
+              />
+              <Input
+                label="Response"
+                value="test"
+                error="second error"
+                multiline
+                trailingIcon={
+                  <Ionicons name="close-outline" size={24} color="#B00020" />
+                }
+                containerStyle={[styles.input, { paddingHorizontal: 16 }]}
+              />
+            </React.Fragment>
+          </Modal>
+
           <Input
             label="Condition"
             value="testas"
@@ -45,7 +87,7 @@ const Content = () => {
             multiline
             disabled
             trailingIcon={<Ionicons name="logo-react" size={24} />}
-            containerStyle={[styles.input, { paddingHorizontal: 8 }]}
+            containerStyle={[styles.input, { paddingHorizontal: 16 }]}
           />
           <Input
             label="Response"
@@ -55,7 +97,7 @@ const Content = () => {
             trailingIcon={
               <Ionicons name="close-outline" size={24} color="#B00020" />
             }
-            containerStyle={[styles.input, { paddingHorizontal: 8 }]}
+            containerStyle={[styles.input, { paddingHorizontal: 16 }]}
           />
         </React.Fragment>
       </Modal>
