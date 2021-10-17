@@ -25,14 +25,15 @@ const App = () => {
 
 const Content = () => {
   const { colors } = useTheme();
+  // @ts-ignore
   const styles = useStyles({ colors });
 
   return (
     <SafeAreaView style={styles.container}>
       {/* testing */}
       <Modal
-        label="test"
-        // withCloseButton={true}
+        label="Sample Modal"
+        withCloseButton={true}
         child={
           <Input
             label="Condition"

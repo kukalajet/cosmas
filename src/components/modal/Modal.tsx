@@ -19,12 +19,10 @@ type ModalSize = "medium" | "large";
 
 type Props = {
   children: React.ReactElement;
-  withCloseButton?: boolean;
-  label?: string;
   child: React.ReactElement;
+  label?: string;
   size?: ModalSize;
-
-  // wip
+  withCloseButton?: boolean;
   onDismiss?: () => void;
   onRemove?: () => void;
   onConfirm?: () => void;
@@ -37,6 +35,8 @@ const Modal = ({
   withCloseButton = false,
   size = "medium",
   onDismiss,
+  onRemove,
+  onConfirm,
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -50,13 +50,18 @@ const Modal = ({
     if (!open) bottomSheetRef.current?.dismiss();
   }, [open]);
 
+  const handleOnPress = useCallback(() => {
+    setOpen((state) => !state);
+  }, []);
+
   const handleDismiss = useCallback(() => {
     setOpen(false);
     if (onDismiss) onDismiss();
   }, []);
 
-  const handleOnPress = useCallback(() => {
-    setOpen((state) => !state);
+  const handleOnRemove = useCallback(() => {
+    setOpen(false);
+    if (onRemove) onRemove();
   }, []);
 
   const renderBackdrop = useCallback(
@@ -87,7 +92,7 @@ const Modal = ({
             <Text style={styles.title}>{label}</Text>
             {withCloseButton && (
               <MaterialCommunityIcons
-                onPress={handleDismiss}
+                onPress={handleOnRemove}
                 name="window-close"
                 size={28}
               />

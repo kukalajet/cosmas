@@ -1,29 +1,48 @@
 import React, { useCallback, useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Pressable,
-  GestureResponderEvent,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Portal } from "@gorhom/portal";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { makeStyles } from "../../utils";
 import { theme } from "../../configs";
 
+type ModalSize = "medium" | "large";
+
 type Props = {
   children: React.ReactElement;
   child: React.ReactElement;
+  label?: string;
+  size?: ModalSize;
   withCloseButton?: boolean;
+  onDismiss?: () => void;
+  onRemove?: () => void;
+  onConfirm?: () => void;
 };
 
-const Modal = ({ children, withCloseButton = false, child }: Props) => {
+const Modal = ({
+  children,
+  child,
+  label,
+  withCloseButton = false,
+  size = "large",
+  onDismiss,
+  onRemove,
+  onConfirm,
+}: Props) => {
   const [open, setOpen] = useState<boolean>(false);
-  const styles = useStyles();
+  const styles = useStyles({ size });
 
   const handleOnPress = useCallback(() => {
     setOpen((state) => !state);
+  }, []);
+
+  const handleDismiss = useCallback(() => {
+    setOpen(false);
+    if (onDismiss) onDismiss();
+  }, []);
+
+  const handleOnRemove = useCallback(() => {
+    setOpen(false);
+    if (onRemove) onRemove();
   }, []);
 
   return (
@@ -31,15 +50,18 @@ const Modal = ({ children, withCloseButton = false, child }: Props) => {
       <Pressable onPress={handleOnPress}>{child}</Pressable>
       {open && (
         <Portal name="modal">
-          <Pressable onPress={handleOnPress} style={styles.backdrop}>
+          <Pressable onPress={handleDismiss} style={styles.backdrop}>
             <Pressable onPress={null} style={styles.modal}>
-              {withCloseButton && (
-                <View style={styles.header}>
-                  <MaterialCommunityIcons
-                    onPress={handleOnPress}
-                    name="window-close"
-                    size={24}
-                  />
+              {(withCloseButton || !!label) && (
+                <View style={styles.topBarContainer}>
+                  <Text style={styles.title}>{label}</Text>
+                  {withCloseButton && (
+                    <MaterialCommunityIcons
+                      onPress={handleOnRemove}
+                      name="window-close"
+                      size={24}
+                    />
+                  )}
                 </View>
               )}
               {children}
@@ -51,9 +73,33 @@ const Modal = ({ children, withCloseButton = false, child }: Props) => {
   );
 };
 
-type StylesProps = {};
+const getWidth = (size: ModalSize): string => {
+  switch (size) {
+    case "medium":
+      return "50%";
+    case "large":
+      return "65%";
+    default:
+      return "65%";
+  }
+};
 
-const useStyles = makeStyles(({}: StylesProps) => ({
+const getHeight = (size: ModalSize): string => {
+  switch (size) {
+    case "medium":
+      return "75%";
+    case "large":
+      return "90%";
+    default:
+      return "90%";
+  }
+};
+
+type StylesProps = {
+  size: ModalSize;
+};
+
+const useStyles = makeStyles(({ size }: StylesProps) => ({
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: `${theme.colors.onBackground}50`,
@@ -63,15 +109,21 @@ const useStyles = makeStyles(({}: StylesProps) => ({
   modal: {
     minWidth: 384,
     minHeight: 576,
-    width: "50%",
-    height: "75%",
-    padding: 8,
+    width: getWidth(size),
+    height: getHeight(size),
     borderRadius: 16,
     backgroundColor: "white",
   },
-  header: {
+  title: {
+    fontWeight: "bold",
+    fontSize: 24,
+  },
+  topBarContainer: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingTop: 8,
   },
 }));
 
