@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
+  TextInput as RNTextInput,
   Platform,
   StyleSheet,
   StyleProp,
@@ -31,7 +31,7 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>;
 };
 
-const Input = ({
+const TextInput = ({
   label,
   value,
   placeholder,
@@ -109,7 +109,7 @@ const Input = ({
       {!!label && <Text style={styles.label}>{label}</Text>}
       <View style={styles.inputContainer}>
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
-        <TextInput
+        <RNTextInput
           value={_value}
           placeholder={placeholder}
           onFocus={_onFocus}
@@ -240,4 +240,4 @@ function getActiveColor(
   return colors.onSurface;
 }
 
-export default Input;
+export default TextInput;
