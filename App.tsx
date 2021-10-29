@@ -1,11 +1,11 @@
 import React from "react";
-import { Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import { PortalProvider, PortalHost } from "@gorhom/portal";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Input, Modal } from "./src/components";
+import { SelectInput, TextInput, Modal } from "./src/components";
 import { makeStyles } from "./src/utils";
 import theme from "./src/configs/theme";
 
@@ -31,11 +31,43 @@ const Content = () => {
   return (
     <SafeAreaView style={styles.container}>
       {/* testing */}
+      <SelectInput
+        title="Test Select Input"
+        items={[
+          "test1",
+          "test2",
+          "test3",
+          "test1",
+          "test2",
+          "test3",
+          "test1",
+          "test2",
+          "test3",
+          "test1",
+          "test2",
+          "test3",
+          "test1",
+          "test2",
+          "test3",
+        ]}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              height: 100,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text>{item}</Text>
+          </View>
+        )}
+      />
       <Modal
         label="Sample Modal"
         withCloseButton={true}
         child={
-          <Input
+          <TextInput
             label="Condition"
             placeholder="test"
             containerStyle={styles.input}
@@ -47,7 +79,7 @@ const Content = () => {
             label="test2"
             withCloseButton={true}
             child={
-              <Input
+              <TextInput
                 label="Condition"
                 placeholder="test"
                 containerStyle={styles.input}
@@ -55,7 +87,7 @@ const Content = () => {
             }
           >
             <React.Fragment>
-              <Input
+              <TextInput
                 label="Condition"
                 value="testas"
                 placeholder="test"
@@ -66,7 +98,7 @@ const Content = () => {
                 trailingIcon={<Ionicons name="logo-react" size={24} />}
                 containerStyle={[styles.input, { paddingHorizontal: 16 }]}
               />
-              <Input
+              <TextInput
                 label="Response"
                 value="test"
                 error="second error"
@@ -79,7 +111,7 @@ const Content = () => {
             </React.Fragment>
           </Modal>
 
-          <Input
+          <TextInput
             label="Condition"
             value="testas"
             placeholder="test"
@@ -90,7 +122,7 @@ const Content = () => {
             trailingIcon={<Ionicons name="logo-react" size={24} />}
             containerStyle={[styles.input, { paddingHorizontal: 16 }]}
           />
-          <Input
+          <TextInput
             label="Response"
             value="test"
             error="second error"
@@ -103,7 +135,7 @@ const Content = () => {
         </React.Fragment>
       </Modal>
       {/* end testing */}
-      <Input
+      <TextInput
         label="Condition"
         value="testas"
         placeholder="test"
@@ -114,7 +146,7 @@ const Content = () => {
         trailingIcon={<Ionicons name="logo-react" size={24} />}
         containerStyle={styles.input}
       />
-      <Input
+      <TextInput
         label="Response"
         value="test"
         error="second error"

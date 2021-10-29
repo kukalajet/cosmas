@@ -25,6 +25,7 @@ type Props = {
   width?: number | string;
   disabled?: boolean;
   multiline?: boolean;
+  pressable?: boolean;
   onChangeText?: (value: string) => void;
   leadingIcon?: React.ReactElement;
   trailingIcon?: React.ReactElement;
@@ -40,6 +41,7 @@ const TextInput = ({
   width = "100%",
   disabled,
   multiline,
+  pressable,
   onChangeText,
   leadingIcon,
   trailingIcon,
@@ -107,7 +109,10 @@ const TextInput = ({
       style={StyleSheet.flatten([styles.container, containerStyle])}
     >
       {!!label && <Text style={styles.label}>{label}</Text>}
-      <View style={styles.inputContainer}>
+      <View
+        pointerEvents={pressable ? "auto" : "none"}
+        style={styles.inputContainer}
+      >
         {!!leadingIcon && <View style={styles.icon}>{leadingIcon}</View>}
         <RNTextInput
           value={_value}
