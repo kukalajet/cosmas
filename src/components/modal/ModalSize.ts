@@ -1,0 +1,1 @@
+type ModalSize = "medium" | "large";

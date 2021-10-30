@@ -6,6 +6,7 @@ import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { SelectInput, TextInput, Modal } from "./src/components";
+import ListItem from "./src/components/select-input/ListItem";
 import { makeStyles } from "./src/utils";
 import theme from "./src/configs/theme";
 
@@ -33,35 +34,25 @@ const Content = () => {
       {/* testing */}
       <SelectInput
         title="Test Select Input"
+        subtitle="Test Selected Subtitle"
+        ListItem={ListItem}
         items={[
-          "test1",
-          "test2",
-          "test3",
-          "test1",
-          "test2",
-          "test3",
-          "test1",
-          "test2",
-          "test3",
-          "test1",
-          "test2",
-          "test3",
-          "test1",
-          "test2",
-          "test3",
+          { key: "selectInputTest", value: "test1" },
+          { key: "selectInputTest", value: "test2" },
+          { key: "selectInputTest", value: "test3" },
+          { key: "selectInputTest", value: "test4" },
+          { key: "selectInputTest", value: "test5" },
+          { key: "selectInputTest", value: "test6" },
+          { key: "selectInputTest", value: "test7" },
+          { key: "selectInputTest", value: "test8" },
+          { key: "selectInputTest", value: "test9" },
+          { key: "selectInputTest", value: "test10" },
+          { key: "selectInputTest", value: "test11" },
+          { key: "selectInputTest", value: "test12" },
+          { key: "selectInputTest", value: "test13" },
+          { key: "selectInputTest", value: "test14" },
+          { key: "selectInputTest", value: "test15" },
         ]}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              height: 100,
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text>{item}</Text>
-          </View>
-        )}
       />
       <Modal
         label="Sample Modal"

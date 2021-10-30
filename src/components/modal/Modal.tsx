@@ -15,12 +15,11 @@ import {
 } from "@gorhom/bottom-sheet";
 import { makeStyles } from "../../utils";
 
-type ModalSize = "medium" | "large";
-
 type Props = {
   children: React.ReactElement;
   child: React.ReactElement;
   label?: string;
+  description?: string;
   size?: ModalSize;
   withCloseButton?: boolean;
   onDismiss?: () => void;
@@ -32,6 +31,7 @@ const Modal = ({
   children,
   child,
   label,
+  description,
   withCloseButton = false,
   size = "medium",
   onDismiss,
@@ -88,8 +88,8 @@ const Modal = ({
         keyboardBehavior="interactive"
       >
         {(withCloseButton || !!label) && (
-          <View style={styles.topBarContainer}>
-            <Text style={styles.title}>{label}</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>{label}</Text>
             {withCloseButton && (
               <MaterialCommunityIcons
                 onPress={handleOnRemove}
@@ -97,6 +97,11 @@ const Modal = ({
                 size={28}
               />
             )}
+          </View>
+        )}
+        {!!description && (
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>{description}</Text>
           </View>
         )}
         {children}
@@ -119,20 +124,27 @@ const getSnapPoints = (size: ModalSize): string[] => {
 type StylesProps = {};
 
 const useStyles = makeStyles(({}: StylesProps) => ({
-  topBarContainer: {
+  labelContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 4,
+    paddingVertical: 2,
     paddingHorizontal: 16,
+  },
+  descriptionContainer: {
+    paddingVertical: 2,
+    paddingHorizontal: 18,
   },
   buttonContainer: {
     marginBottom: 16,
     marginHorizontal: 16,
   },
-  title: {
+  label: {
     fontWeight: "bold",
     fontSize: 24,
+  },
+  description: {
+    fontSize: 14,
   },
   remove: {
     paddingVertical: 8,

@@ -11,6 +11,7 @@ type Props = {
   children: React.ReactElement;
   child: React.ReactElement;
   label?: string;
+  description?: string;
   size?: ModalSize;
   withCloseButton?: boolean;
   onDismiss?: () => void;
@@ -22,6 +23,7 @@ const Modal = ({
   children,
   child,
   label,
+  description,
   withCloseButton = false,
   size = "large",
   onDismiss,
@@ -53,7 +55,7 @@ const Modal = ({
           <Pressable onPress={handleDismiss} style={styles.backdrop}>
             <Pressable onPress={null} style={styles.modal}>
               {(withCloseButton || !!label) && (
-                <View style={styles.topBarContainer}>
+                <View style={styles.labelContainer}>
                   <Text style={styles.title}>{label}</Text>
                   {withCloseButton && (
                     <MaterialCommunityIcons
@@ -62,6 +64,11 @@ const Modal = ({
                       size={24}
                     />
                   )}
+                </View>
+              )}
+              {!!description && (
+                <View style={styles.descriptionContainer}>
+                  <Text style={styles.description}>{description}</Text>
                 </View>
               )}
               {children}
@@ -118,12 +125,19 @@ const useStyles = makeStyles(({ size }: StylesProps) => ({
     fontWeight: "bold",
     fontSize: 24,
   },
-  topBarContainer: {
+  description: {
+    fontSize: 14,
+  },
+  labelContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 16,
     paddingTop: 8,
+  },
+  descriptionContainer: {
+    paddingVertical: 2,
+    paddingHorizontal: 18,
   },
 }));
 
