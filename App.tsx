@@ -5,8 +5,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { SelectInput, TextInput, Modal } from "./src/components";
-import ListItem from "./src/components/select-input/ListItem";
+import { SelectInput, TextInput, Modal, ListItem } from "./src/components";
 import { makeStyles } from "./src/utils";
 import theme from "./src/configs/theme";
 
